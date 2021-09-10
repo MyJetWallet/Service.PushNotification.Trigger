@@ -1,0 +1,41 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference PrivateAssets="All" Include="..\Service.PushNotification.Trigger.Domain.Models\Service.PushNotification.Trigger.Domain.Models.csproj" />
+    <ProjectReference PrivateAssets="All" Include="..\Service.PushNotification.Trigger.Grpc\Service.PushNotification.Trigger.Grpc.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Autofac" Version="6.2.0" />
+    <PackageReference Include="Grpc.Core.Api" Version="2.40.0" />
+    <PackageReference Include="JetBrains.Annotations" Version="2021.2.0" />
+    <PackageReference Include="Grpc.Net.Client" Version="2.39.0" />
+    <PackageReference Include="MyJetWallet.Sdk.Grpc" Version="1.0.2" />
+    <PackageReference Include="MyJetWallet.Sdk.GrpcMetrics" Version="2.0.0" />
+    <PackageReference Include="System.ServiceModel.Primitives" Version="4.8.1" />
+    <PackageReference Include="protobuf-net.Grpc" Version="1.0.152" />
+  </ItemGroup>
+
+  <PropertyGroup>
+    <TargetsForTfmSpecificBuildOutput>
+      $(TargetsForTfmSpecificBuildOutput);PackReferencedProjectOutputs
+    </TargetsForTfmSpecificBuildOutput>
+    <PackageId>MyJetWallet.Service.PushNotification.Trigger.Client</PackageId>
+    <Authors>MyJetWallet</Authors>
+    <Company>MyJetWallet</Company>
+    <Product>MyJetWallet</Product>
+    <PackageProjectUrl>https://github.com/MyJetWallet/Service.PushNotification.Trigger</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/MyJetWallet/Service.PushNotification.Trigger</RepositoryUrl>
+  </PropertyGroup>
+
+  <Target Name="PackReferencedProjectOutputs" DependsOnTargets="BuildOnlySettings;ResolveReferences">
+    <ItemGroup>
+      <BuildOutputInPackage Include="@(ReferenceCopyLocalPaths-&gt;WithMetadataValue('ReferenceSourceTarget', 'ProjectReference'))" />
+    </ItemGroup>
+  </Target>
+
+</Project>
