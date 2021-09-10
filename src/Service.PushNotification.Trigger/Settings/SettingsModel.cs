@@ -13,5 +13,12 @@ namespace Service.PushNotification.Trigger.Settings
 
         [YamlProperty("PushNotificationTrigger.ElkLogs")]
         public LogElkSettings ElkLogs { get; set; }
+
+        [YamlProperty("PushNotificationTrigger.SpotServiceBusHostPort")]
+        public string SpotServiceBusHostPort { get; set; }
+
+        [YamlProperty("PushNotificationTrigger.PushNotificationGrpcServiceUrl")]
+        public string PushNotificationGrpcServiceUrl { get; set; }
+
     }
 }
