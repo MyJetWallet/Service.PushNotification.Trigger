@@ -16,6 +16,9 @@ namespace Service.PushNotification.Trigger.Settings
 
         [YamlProperty("PushNotificationTrigger.SpotServiceBusHostPort")]
         public string SpotServiceBusHostPort { get; set; }
+        
+        [YamlProperty("PushNotificationTrigger.AuthServiceBusHostPort")]
+        public string AuthServiceBusHostPort { get; set; }
 
         [YamlProperty("PushNotificationTrigger.PushNotificationGrpcServiceUrl")]
         public string PushNotificationGrpcServiceUrl { get; set; }

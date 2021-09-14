@@ -36,6 +36,8 @@
 ipch/
 **/.vscode/
 
+.run/
+
 # Visual Studio project upgrade
 [Bb]ackup/
 UpgradeLog*

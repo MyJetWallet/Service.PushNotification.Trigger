@@ -1,6 +1,8 @@
 ﻿using Autofac;
+using MyJetWallet.Sdk.Authorization.ServiceBus;
 using MyJetWallet.Sdk.Service;
 using MyJetWallet.Sdk.ServiceBus;
+using MyServiceBus.Abstractions;
 using Service.Bitgo.DepositDetector.Client;
 using Service.Bitgo.WithdrawalProcessor.Client;
 using Service.Liquidity.Converter.Client;
@@ -38,6 +40,20 @@ namespace Service.PushNotification.Trigger.Modules
                 .RegisterType<ConvertPushNotification>()
                 .AutoActivate()
                 .SingleInstance();
+
+            builder
+                .RegisterType<LoginPushNotification>()
+                .AutoActivate()
+                .SingleInstance();
+
+
+            var authServiceBus = MyServiceBusTcpClientFactory.Create(
+                Program.ReloadedSettings(e => e.AuthServiceBusHostPort), ApplicationEnvironment.HostName,
+                Program.LogFactory.CreateLogger("AuthServiceBus"));
+
+            builder.RegisterMyServiceBusSubscriberBatch<SessionAuditEvent>(authServiceBus, SessionAuditEvent.TopicName, queueName, TopicQueueType.Permanent);
+
+            builder.RegisterInstance(authServiceBus).SingleInstance();
         }
     }
 }
