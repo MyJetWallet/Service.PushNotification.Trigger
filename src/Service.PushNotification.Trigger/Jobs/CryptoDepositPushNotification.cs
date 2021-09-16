@@ -27,14 +27,22 @@ namespace Service.PushNotification.Trigger.Jobs
         {
             foreach (var deposit in depositEventList.Where(e => e.Status == DepositStatus.Processed))
             {
-                await _notificationService.SendPushCryptoDeposit(new DepositRequest()
+                try
                 {
-                    ClientId = deposit.ClientId,
-                    Amount = (decimal)deposit.Amount,
-                    Symbol = deposit.AssetSymbol
-                });
+                    await _notificationService.SendPushCryptoDeposit(new DepositRequest()
+                    {
+                        ClientId = deposit.ClientId,
+                        Amount = (decimal) deposit.Amount,
+                        Symbol = deposit.AssetSymbol
+                    });
 
-                _logger.LogInformation("Client {clientId} [{walletId}] receive {amount} {assetSymbol}", deposit.ClientId, deposit.WalletId, deposit.Amount, deposit.AssetSymbol);
+                    _logger.LogInformation("Client {clientId} [{walletId}] receive {amount} {assetSymbol}",
+                        deposit.ClientId, deposit.WalletId, deposit.Amount, deposit.AssetSymbol);
+                }
+                catch (Exception ex)
+                {
+                    _logger.LogError(ex, "Cannot send deposit push to client {ClientId}", deposit.ClientId);
+                }
             }
         }
     }

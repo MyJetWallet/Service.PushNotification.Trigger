@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -28,20 +29,27 @@ namespace Service.PushNotification.Trigger.Jobs
         private async ValueTask HandleEvent(IReadOnlyList<SessionAuditEvent> events)
         {
             var taskList = new List<Task>();
-            
-            foreach (var auditEvent in events.Where(e => e.Action == SessionAuditEvent.SessionAction.Login))
+
+            try
             {
-                var task = _notificationService.SendPushLogin(new LoginPushRequest()
+                foreach (var auditEvent in events.Where(e => e.Action == SessionAuditEvent.SessionAction.Login))
                 {
-                    ClientId = auditEvent.Session.TraderId,
-                    Date = auditEvent.Session.CreateTime,
-                    Ip = auditEvent.Session.IP
-                });
+                    var task = _notificationService.SendPushLogin(new LoginPushRequest()
+                    {
+                        ClientId = auditEvent.Session.TraderId,
+                        Date = auditEvent.Session.CreateTime,
+                        Ip = auditEvent.Session.IP
+                    });
                 
-                taskList.Add(task);
-            }
+                    taskList.Add(task);
+                }
             
-            await Task.WhenAll(taskList);
+                await Task.WhenAll(taskList);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Cannot send login push");
+            }
         }
     }
 }
