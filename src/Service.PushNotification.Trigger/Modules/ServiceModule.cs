@@ -5,6 +5,7 @@ using MyJetWallet.Sdk.ServiceBus;
 using MyServiceBus.Abstractions;
 using Service.Bitgo.DepositDetector.Client;
 using Service.Bitgo.WithdrawalProcessor.Client;
+using Service.InternalTransfer.Client;
 using Service.Liquidity.Converter.Client;
 using Service.PushNotification.Client;
 using Service.PushNotification.Trigger.Jobs;
@@ -22,8 +23,8 @@ namespace Service.PushNotification.Trigger.Modules
             builder.RegisterDepositOperationSubscriberBatch(serviceBusClient, queueName);
             builder.RegisterWithdrawalOperationSubscriber(serviceBusClient, queueName);
             builder.RegisterLiquidityConverterServiceBusSubscriber(serviceBusClient, queueName);
-
             builder.RegisterPushNotificationClient(Program.Settings.PushNotificationGrpcServiceUrl);
+            builder.RegisterTransferOperationSubscriber(serviceBusClient, queueName);
 
 
             builder
@@ -43,6 +44,11 @@ namespace Service.PushNotification.Trigger.Modules
 
             builder
                 .RegisterType<LoginPushNotification>()
+                .AutoActivate()
+                .SingleInstance();
+            
+            builder
+                .RegisterType<TransferSendPushNotification>()
                 .AutoActivate()
                 .SingleInstance();
 
