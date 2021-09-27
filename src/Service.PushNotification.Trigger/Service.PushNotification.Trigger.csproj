@@ -20,7 +20,7 @@
     <PackageReference Include="MyJetWallet.Service.Bitgo.WithdrawalProcessor.Client" Version="1.1.9" />
     <PackageReference Include="MyJetWallet.Service.InternalTransfer.Client" Version="1.0.1" />
     <PackageReference Include="MyJetWallet.Service.Liquidity.Converter.Client" Version="1.1.2" />
-    <PackageReference Include="MyJetWallet.Service.PushNotification.Client" Version="1.3.3" />
+    <PackageReference Include="MyJetWallet.Service.PushNotification.Client" Version="1.3.4" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
     <PackageReference Include="prometheus-net.AspNetCore" Version="5.0.1" />
     <PackageReference Include="protobuf-net.Grpc.AspNetCore" Version="1.0.152" />

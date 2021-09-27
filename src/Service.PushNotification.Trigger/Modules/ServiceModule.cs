@@ -51,6 +51,11 @@ namespace Service.PushNotification.Trigger.Modules
                 .RegisterType<TransferSendPushNotification>()
                 .AutoActivate()
                 .SingleInstance();
+            
+            builder
+                .RegisterType<TransferReceivePushNotification>()
+                .AutoActivate()
+                .SingleInstance();
 
 
             var authServiceBus = MyServiceBusTcpClientFactory.Create(

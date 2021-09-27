@@ -12,14 +12,14 @@ using Service.PushNotification.Grpc.Models.Requests;
 
 namespace Service.PushNotification.Trigger.Jobs
 {
-    public class TransferSendPushNotification
+    public class TransferReceivePushNotification
     {
         private readonly INotificationService _notificationService;
-        private readonly ILogger<TransferSendPushNotification> _logger;
+        private readonly ILogger<TransferReceivePushNotification> _logger;
 
-        public TransferSendPushNotification(ISubscriber<IReadOnlyList<Transfer>> subscriber,
+        public TransferReceivePushNotification(ISubscriber<IReadOnlyList<Transfer>> subscriber,
             INotificationService notificationService, 
-            ILogger<TransferSendPushNotification> logger)
+            ILogger<TransferReceivePushNotification> logger)
         {
             _notificationService = notificationService;
             _logger = logger;
@@ -32,7 +32,7 @@ namespace Service.PushNotification.Trigger.Jobs
             {
                 try
                 {
-                    await _notificationService.SendPushTransferSend(new SendPushTransferRequest()
+                    await _notificationService.SendPushTransferReceive(new SendPushTransferRequest()
                     {
                         SenderClientId = transfer.ClientId,
                         DestinationClientId = transfer.DestinationClientId,
@@ -42,14 +42,14 @@ namespace Service.PushNotification.Trigger.Jobs
                         SenderPhoneNumber = transfer.SenderPhoneNumber
                     });
 
-                    _logger.LogInformation("Client {clientId} [{walletId}] send {amount} {assetSymbol} to {toClientId} [{toWalletId}]",
-                        transfer.ClientId, transfer.WalletId,
+                    _logger.LogInformation("Client {clientId} [{walletId}] receive {amount} {assetSymbol} from {fromClientId} [{fromWalletId}]",
+                        transfer.DestinationClientId, transfer.DestinationWalletId,
                         transfer.Amount, transfer.AssetSymbol, 
-                        transfer.DestinationClientId, transfer.DestinationWalletId);
+                        transfer.ClientId, transfer.WalletId);
                 }
                 catch (Exception ex)
                 {
-                    _logger.LogError(ex, "Cannot push send transfer to client {ClientId}", transfer.ClientId);
+                    _logger.LogError(ex, "Cannot push receive transfer to client {ClientId}", transfer.DestinationClientId);
                 }
             }
         }
