@@ -17,7 +17,7 @@ namespace Service.PushNotification.Trigger.Jobs
         private readonly ILogger<LoginPushNotification> _logger;
 
         public LoginPushNotification(INotificationService notificationService, ILogger<LoginPushNotification> logger,
-            ISubscriber<SessionAuditEvent> subscruber)
+            ISubscriber<SessionAuditEvent> subscriber)
         {
             _notificationService = notificationService;
             _logger = logger;
@@ -29,7 +29,7 @@ namespace Service.PushNotification.Trigger.Jobs
                 e => e.Session.RootSessionId.ToString(),
                 10,
                 5000);
-            subscruber.Subscribe(executor.Execute);
+            subscriber.Subscribe(executor.Execute);
         }
 
         private async ValueTask HandleEvent(SessionAuditEvent auditEvent)
