@@ -29,6 +29,7 @@ namespace Service.PushNotification.Trigger.Modules
             builder.RegisterMyServiceBusSubscriberSingle<Transfer>(serviceBusClient, Transfer.TopicName, 
                 queueName, TopicQueueType.PermanentWithSingleConnection);
 
+
             builder
                 .RegisterType<CryptoDepositPushNotification>()
                 .AutoActivate()
@@ -58,9 +59,10 @@ namespace Service.PushNotification.Trigger.Modules
                 Program.ReloadedSettings(e => e.AuthServiceBusHostPort), ApplicationEnvironment.HostName,
                 Program.LogFactory.CreateLogger("AuthServiceBus"));
 
-            builder.RegisterMyServiceBusSubscriberBatch<SessionAuditEvent>(authServiceBus, SessionAuditEvent.TopicName, queueName, TopicQueueType.Permanent);
-
             builder.RegisterInstance(authServiceBus).SingleInstance();
+            
+            builder.RegisterMyServiceBusSubscriberSingle<SessionAuditEvent>(authServiceBus, SessionAuditEvent.TopicName, 
+                queueName, TopicQueueType.Permanent);
         }
     }
 }

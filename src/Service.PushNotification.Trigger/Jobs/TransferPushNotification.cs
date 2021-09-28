@@ -32,33 +32,36 @@ namespace Service.PushNotification.Trigger.Jobs
 
         private async ValueTask HandleTransfer(Transfer transfer)
         {
-            await _notificationService.SendPushTransferSend(new SendPushTransferRequest()
+            if (transfer.Status == TransferStatus.Completed)
             {
-                SenderClientId = transfer.ClientId,
-                DestinationClientId = transfer.DestinationClientId,
-                Amount = transfer.Amount,
-                AssetSymbol = transfer.AssetSymbol,
-                DestinationPhoneNumber = transfer.DestinationPhoneNumber,
-                SenderPhoneNumber = transfer.SenderPhoneNumber
-            });
-            _logger.LogInformation("Client {clientId} [{walletId}] send {amount} {assetSymbol} to {toClientId} [{toWalletId}]",
-                transfer.ClientId, transfer.WalletId,
-                transfer.Amount, transfer.AssetSymbol, 
-                transfer.DestinationClientId, transfer.DestinationWalletId);
+                await _notificationService.SendPushTransferSend(new SendPushTransferRequest()
+                {
+                    SenderClientId = transfer.ClientId,
+                    DestinationClientId = transfer.DestinationClientId,
+                    Amount = transfer.Amount,
+                    AssetSymbol = transfer.AssetSymbol,
+                    DestinationPhoneNumber = transfer.DestinationPhoneNumber,
+                    SenderPhoneNumber = transfer.SenderPhoneNumber
+                });
+                _logger.LogInformation("Client {clientId} [{walletId}] send {amount} {assetSymbol} to {toClientId} [{toWalletId}]",
+                    transfer.ClientId, transfer.WalletId,
+                    transfer.Amount, transfer.AssetSymbol, 
+                    transfer.DestinationClientId, transfer.DestinationWalletId);
                 
-            await _notificationService.SendPushTransferReceive(new SendPushTransferRequest()
-            {
-                SenderClientId = transfer.ClientId,
-                DestinationClientId = transfer.DestinationClientId,
-                Amount = transfer.Amount,
-                AssetSymbol = transfer.AssetSymbol,
-                DestinationPhoneNumber = transfer.DestinationPhoneNumber,
-                SenderPhoneNumber = transfer.SenderPhoneNumber
-            });
-            _logger.LogInformation("Client {clientId} [{walletId}] receive {amount} {assetSymbol} from {fromClientId} [{fromWalletId}]",
-                transfer.DestinationClientId, transfer.DestinationWalletId,
-                transfer.Amount, transfer.AssetSymbol, 
-                transfer.ClientId, transfer.WalletId);
+                await _notificationService.SendPushTransferReceive(new SendPushTransferRequest()
+                {
+                    SenderClientId = transfer.ClientId,
+                    DestinationClientId = transfer.DestinationClientId,
+                    Amount = transfer.Amount,
+                    AssetSymbol = transfer.AssetSymbol,
+                    DestinationPhoneNumber = transfer.DestinationPhoneNumber,
+                    SenderPhoneNumber = transfer.SenderPhoneNumber
+                });
+                _logger.LogInformation("Client {clientId} [{walletId}] receive {amount} {assetSymbol} from {fromClientId} [{fromWalletId}]",
+                    transfer.DestinationClientId, transfer.DestinationWalletId,
+                    transfer.Amount, transfer.AssetSymbol, 
+                    transfer.ClientId, transfer.WalletId);
+            }
         }
     }
 }
