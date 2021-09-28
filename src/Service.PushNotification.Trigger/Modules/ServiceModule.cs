@@ -6,6 +6,7 @@ using MyServiceBus.Abstractions;
 using Service.Bitgo.DepositDetector.Client;
 using Service.Bitgo.WithdrawalProcessor.Client;
 using Service.InternalTransfer.Client;
+using Service.InternalTransfer.Domain.Models;
 using Service.Liquidity.Converter.Client;
 using Service.PushNotification.Client;
 using Service.PushNotification.Trigger.Jobs;
@@ -24,8 +25,9 @@ namespace Service.PushNotification.Trigger.Modules
             builder.RegisterWithdrawalOperationSubscriber(serviceBusClient, queueName);
             builder.RegisterLiquidityConverterServiceBusSubscriber(serviceBusClient, queueName);
             builder.RegisterPushNotificationClient(Program.Settings.PushNotificationGrpcServiceUrl);
-            builder.RegisterTransferOperationSubscriber(serviceBusClient, queueName);
-
+            
+            builder.RegisterMyServiceBusSubscriberSingle<Transfer>(serviceBusClient, Transfer.TopicName, 
+                queueName, TopicQueueType.PermanentWithSingleConnection);
 
             builder
                 .RegisterType<CryptoDepositPushNotification>()
@@ -48,15 +50,9 @@ namespace Service.PushNotification.Trigger.Modules
                 .SingleInstance();
             
             builder
-                .RegisterType<TransferSendPushNotification>()
+                .RegisterType<TransferPushNotification>()
                 .AutoActivate()
                 .SingleInstance();
-            
-            builder
-                .RegisterType<TransferReceivePushNotification>()
-                .AutoActivate()
-                .SingleInstance();
-
 
             var authServiceBus = MyServiceBusTcpClientFactory.Create(
                 Program.ReloadedSettings(e => e.AuthServiceBusHostPort), ApplicationEnvironment.HostName,
