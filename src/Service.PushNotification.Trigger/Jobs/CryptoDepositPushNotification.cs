@@ -28,8 +28,6 @@ namespace Service.PushNotification.Trigger.Jobs
                 10,
                 5000);
             subscriber.Subscribe(executor.Execute);
-            
-            subscriber.Subscribe(HandleDeposit);
         }
 
         private async ValueTask HandleDeposit(Deposit deposit)
