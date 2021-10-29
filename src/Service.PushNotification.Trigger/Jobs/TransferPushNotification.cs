@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using DotNetCoreDecorators;
 using Microsoft.Extensions.Logging;
 using MyJetWallet.Sdk.ServiceBus;
@@ -26,12 +27,13 @@ namespace Service.PushNotification.Trigger.Jobs
                 e => $"Cannot handle transfer for client {e.ClientId}.", 
                 e => e.Id.ToString(),
                 10,
-                5000);
+                500);
             subscriber.Subscribe(executor.Execute);
         }
 
         private async ValueTask HandleTransfer(Transfer transfer)
         {
+            Console.WriteLine(transfer.ClientId + "|" + transfer.Status);
             if (transfer.Status == TransferStatus.Completed)
             {
                 await _notificationService.SendPushTransferSend(new SendPushTransferRequest()

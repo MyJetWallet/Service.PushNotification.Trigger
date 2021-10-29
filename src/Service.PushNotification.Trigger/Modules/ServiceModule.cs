@@ -1,15 +1,11 @@
 ﻿using Autofac;
 using MyJetWallet.Sdk.Authorization.ServiceBus;
-using MyJetWallet.Sdk.Service;
 using MyJetWallet.Sdk.ServiceBus;
 using MyServiceBus.Abstractions;
-using Service.Bitgo.DepositDetector.Client;
 using Service.Bitgo.DepositDetector.Domain.Models;
-using Service.Bitgo.WithdrawalProcessor.Client;
 using Service.Bitgo.WithdrawalProcessor.Domain.Models;
-using Service.InternalTransfer.Client;
 using Service.InternalTransfer.Domain.Models;
-using Service.Liquidity.Converter.Client;
+using Service.Liquidity.Converter.Domain.Models;
 using Service.PushNotification.Client;
 using Service.PushNotification.Trigger.Jobs;
 
@@ -23,7 +19,7 @@ namespace Service.PushNotification.Trigger.Modules
 
             var queueName = "PushNotification.Trigger";
 
-            builder.RegisterLiquidityConverterServiceBusSubscriber(serviceBusClient, queueName);
+            builder.RegisterMyServiceBusSubscriberSingle<SwapMessage>(serviceBusClient, SwapMessage.TopicName, queueName, TopicQueueType.Permanent);
             builder.RegisterPushNotificationClient(Program.Settings.PushNotificationGrpcServiceUrl);
             
             builder.RegisterMyServiceBusSubscriberSingle<Transfer>(serviceBusClient, Transfer.TopicName, 
