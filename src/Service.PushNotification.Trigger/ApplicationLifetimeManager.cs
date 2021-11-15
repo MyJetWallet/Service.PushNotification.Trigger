@@ -2,6 +2,7 @@
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using MyJetWallet.Sdk.Service;
+using MyJetWallet.Sdk.ServiceBus;
 using MyServiceBus.TcpClient;
 
 namespace Service.PushNotification.Trigger
@@ -9,10 +10,10 @@ namespace Service.PushNotification.Trigger
     public class ApplicationLifetimeManager : ApplicationLifetimeManagerBase
     {
         private readonly ILogger<ApplicationLifetimeManager> _logger;
-        private readonly MyServiceBusTcpClient[] _serviceBusTcpClients;
+        private readonly ServiceBusLifeTime _serviceBusTcpClients;
 
         public ApplicationLifetimeManager(IHostApplicationLifetime appLifetime, ILogger<ApplicationLifetimeManager> logger, 
-            MyServiceBusTcpClient[] serviceBusTcpClients)
+            ServiceBusLifeTime serviceBusTcpClients)
             : base(appLifetime)
         {
             _logger = logger;
@@ -23,26 +24,14 @@ namespace Service.PushNotification.Trigger
         {
             _logger.LogInformation("OnStarted has been called.");
 
-            foreach (var client in _serviceBusTcpClients)
-            {
-                client.Start();    
-            }
+            _serviceBusTcpClients.Start();
         }
 
         protected override void OnStopping()
         {
             _logger.LogInformation("OnStopping has been called.");
             
-            foreach (var client in _serviceBusTcpClients)
-            {
-                try
-                {
-                    client.Stop();
-                }
-                catch (Exception)
-                {
-                }
-            }
+            _serviceBusTcpClients.Stop();
         }
 
         protected override void OnStopped()
