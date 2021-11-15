@@ -56,7 +56,7 @@ namespace Service.PushNotification.Trigger.Modules
                 .AutoActivate()
                 .SingleInstance();
 
-            builder.RegisterMyServiceBusSubscriberBatch<SessionAuditEvent>(serviceBusClient, SessionAuditEvent.TopicName, queueName, TopicQueueType.Permanent);
+            builder.RegisterMyServiceBusSubscriberSingle<SessionAuditEvent>(serviceBusClient, SessionAuditEvent.TopicName, queueName, TopicQueueType.Permanent);
         }
     }
 }

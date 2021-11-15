@@ -13,7 +13,9 @@ namespace Service.PushNotification.Trigger.Jobs
         private readonly INotificationService _notificationService;
         private readonly ILogger<LoginPushNotification> _logger;
 
-        public LoginPushNotification(INotificationService notificationService, ILogger<LoginPushNotification> logger,
+        public LoginPushNotification(
+            INotificationService notificationService, 
+            ILogger<LoginPushNotification> logger,
             ISubscriber<SessionAuditEvent> subscriber)
         {
             _notificationService = notificationService;

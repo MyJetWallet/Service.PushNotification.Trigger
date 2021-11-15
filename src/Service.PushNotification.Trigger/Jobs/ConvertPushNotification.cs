@@ -13,7 +13,8 @@ namespace Service.PushNotification.Trigger.Jobs
         private readonly INotificationService _notificationService;
         private readonly ILogger<ConvertPushNotification> _logger;
 
-        public ConvertPushNotification(ISubscriber<SwapMessage> subscriber, 
+        public ConvertPushNotification(
+            ISubscriber<SwapMessage> subscriber, 
             INotificationService notificationService, 
             ILogger<ConvertPushNotification> logger)
         {

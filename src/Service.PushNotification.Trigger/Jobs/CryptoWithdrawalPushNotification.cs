@@ -13,7 +13,8 @@ namespace Service.PushNotification.Trigger.Jobs
         private readonly INotificationService _notificationService;
         private readonly ILogger<CryptoWithdrawalPushNotification> _logger;
 
-        public CryptoWithdrawalPushNotification(ISubscriber<Withdrawal> subscriber, 
+        public CryptoWithdrawalPushNotification(
+            ISubscriber<Withdrawal> subscriber, 
             INotificationService notificationService,
             ILogger<CryptoWithdrawalPushNotification> logger)
         {

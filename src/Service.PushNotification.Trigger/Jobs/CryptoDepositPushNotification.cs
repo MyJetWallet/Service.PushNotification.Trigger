@@ -13,7 +13,8 @@ namespace Service.PushNotification.Trigger.Jobs
         private readonly INotificationService _notificationService;
         private readonly ILogger<CryptoDepositPushNotification> _logger;
 
-        public CryptoDepositPushNotification(ISubscriber<Deposit> subscriber, 
+        public CryptoDepositPushNotification(
+            ISubscriber<Deposit> subscriber, 
             INotificationService notificationService, 
             ILogger<CryptoDepositPushNotification> logger)
         {
