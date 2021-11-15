@@ -25,9 +25,10 @@ namespace Service.PushNotification.Trigger.Jobs
                 HandleTransfer, 
                 _logger, 
                 e => $"Cannot handle transfer for client {e.ClientId}.", 
-                e => e.Id.ToString(),
+                e => $"{e.Id}::{e.Status}",
                 10,
                 500);
+            
             subscriber.Subscribe(executor.Execute);
         }
 
@@ -45,6 +46,7 @@ namespace Service.PushNotification.Trigger.Jobs
                     DestinationPhoneNumber = transfer.DestinationPhoneNumber,
                     SenderPhoneNumber = transfer.SenderPhoneNumber
                 });
+                
                 _logger.LogInformation("Client {clientId} [{walletId}] send {amount} {assetSymbol} to {toClientId} [{toWalletId}]",
                     transfer.ClientId, transfer.WalletId,
                     transfer.Amount, transfer.AssetSymbol, 
@@ -59,6 +61,7 @@ namespace Service.PushNotification.Trigger.Jobs
                     DestinationPhoneNumber = transfer.DestinationPhoneNumber,
                     SenderPhoneNumber = transfer.SenderPhoneNumber
                 });
+                
                 _logger.LogInformation("Client {clientId} [{walletId}] receive {amount} {assetSymbol} from {fromClientId} [{fromWalletId}]",
                     transfer.DestinationClientId, transfer.DestinationWalletId,
                     transfer.Amount, transfer.AssetSymbol, 

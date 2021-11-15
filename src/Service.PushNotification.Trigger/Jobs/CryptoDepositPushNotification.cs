@@ -24,7 +24,7 @@ namespace Service.PushNotification.Trigger.Jobs
                 HandleDeposit, 
                 _logger, 
                 e => $"Cannot send deposit push to client {e.ClientId}.", 
-                e => e.Id.ToString(),
+                e => $"{e.Id}::{e.Status}",
                 10,
                 5000);
             subscriber.Subscribe(executor.Execute);

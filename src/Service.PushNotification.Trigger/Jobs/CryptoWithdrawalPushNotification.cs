@@ -24,7 +24,7 @@ namespace Service.PushNotification.Trigger.Jobs
                 HandleWithdrawal, 
                 _logger, 
                 e => $"Cannot send withdrawal push to client {e.ClientId}.", 
-                e => e.Id.ToString(),
+                e => $"{e.Id}::{e.Status}",
                 10,
                 5000);
             subscriber.Subscribe(executor.Execute);
