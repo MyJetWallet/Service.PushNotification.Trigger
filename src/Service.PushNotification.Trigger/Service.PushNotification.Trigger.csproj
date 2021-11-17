@@ -17,10 +17,10 @@
     <PackageReference Include="MyJetWallet.Sdk.GrpcSchema" Version="1.0.6" />
     <PackageReference Include="MyJetWallet.Sdk.Service" Version="2.0.2" />
     <PackageReference Include="MyJetWallet.Sdk.ServiceBus" Version="2.0.2" />
-    <PackageReference Include="MyJetWallet.Service.Bitgo.DepositDetector.Client" Version="2.0.4" />
-    <PackageReference Include="MyJetWallet.Service.Bitgo.WithdrawalProcessor.Client" Version="2.0.3" />
+    <PackageReference Include="MyJetWallet.Service.Bitgo.DepositDetector.Client" Version="2.1.0" />
+    <PackageReference Include="MyJetWallet.Service.Bitgo.WithdrawalProcessor.Client" Version="2.1.0" />
     <PackageReference Include="MyJetWallet.Service.InternalTransfer.Client" Version="1.1.0" />
-    <PackageReference Include="MyJetWallet.Service.Liquidity.Converter.Client" Version="1.1.5" />
+    <PackageReference Include="MyJetWallet.Service.Liquidity.Converter.Client" Version="1.2.0" />
     <PackageReference Include="MyJetWallet.Service.PushNotification.Client" Version="1.4.0" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
     <PackageReference Include="prometheus-net.AspNetCore" Version="5.0.1" />
