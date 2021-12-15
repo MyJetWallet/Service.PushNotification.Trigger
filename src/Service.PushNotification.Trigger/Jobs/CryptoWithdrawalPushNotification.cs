@@ -73,6 +73,16 @@ namespace Service.PushNotification.Trigger.Jobs
                     Destination = withdrawal.ToAddress
                 });
 
+                if (withdrawal.IsInternal)
+                {
+                    await _notificationService.SendPushCryptoDeposit(new DepositRequest()
+                    {
+                        ClientId = withdrawal.DestinationClientId,
+                        Symbol = withdrawal.AssetSymbol,
+                        Amount = (decimal)withdrawal.Amount
+                    }); 
+                }
+
                 _logger.LogInformation($"Client {withdrawal.ClientId} [{withdrawal.WalletId}] complete withdrawal {withdrawal.Amount} {withdrawal.AssetSymbol}",
                     withdrawal.ClientId, withdrawal.WalletId, withdrawal.Amount, withdrawal.AssetSymbol);
             }
