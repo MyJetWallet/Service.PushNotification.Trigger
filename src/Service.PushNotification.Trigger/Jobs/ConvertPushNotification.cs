@@ -21,14 +21,16 @@ namespace Service.PushNotification.Trigger.Jobs
             _notificationService = notificationService;
             _logger = logger;
             
-            var executor = new ExecutorWithRetry<SwapMessage>(
-                HandleConvert, 
-                _logger, 
-                e => $"Cannot send ConvertPush to {e.AccountId1}; {e.AccountId2}.", 
-                e => e.Id,
-                10,
-                5000);
-            subscriber.Subscribe(executor.Execute);
+            // var executor = new ExecutorWithRetry<SwapMessage>(
+            //     HandleConvert, 
+            //     _logger, 
+            //     e => $"Cannot send ConvertPush to {e.AccountId1}; {e.AccountId2}.", 
+            //     e => e.Id,
+            //     10,
+            //     5000);
+            // subscriber.Subscribe(executor.Execute);
+            
+            //
         }
 
         private async ValueTask HandleConvert(SwapMessage convert)
