@@ -41,7 +41,7 @@ namespace Service.PushNotification.Trigger.Jobs
                 {
                     SenderClientId = transfer.ClientId,
                     DestinationClientId = transfer.DestinationClientId,
-                    Amount = transfer.Amount,
+                    Amount = (double)transfer.Amount,
                     AssetSymbol = transfer.AssetSymbol,
                     DestinationPhoneNumber = transfer.DestinationPhoneNumber,
                     SenderPhoneNumber = transfer.SenderPhoneNumber
@@ -56,7 +56,7 @@ namespace Service.PushNotification.Trigger.Jobs
                 {
                     SenderClientId = transfer.ClientId,
                     DestinationClientId = transfer.DestinationClientId,
-                    Amount = transfer.Amount,
+                    Amount = (double)transfer.Amount,
                     AssetSymbol = transfer.AssetSymbol,
                     DestinationPhoneNumber = transfer.DestinationPhoneNumber,
                     SenderPhoneNumber = transfer.SenderPhoneNumber
