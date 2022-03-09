@@ -23,14 +23,14 @@ namespace Service.PushNotification.Trigger.Jobs
             _notificationService = notificationService;
             _logger = logger;
             
-            var executor = new ExecutorWithRetry<KycProfileUpdatedMessage>(
-                HandleEvent, 
-                _logger, 
-                e => $"Cannot send kyc push for trader: {e.ClientId}.", 
-                e => e.ClientId,
-                10,
-                5000);
-            subscriber.Subscribe(executor.Execute);
+            // var executor = new ExecutorWithRetry<KycProfileUpdatedMessage>(
+            //     HandleEvent, 
+            //     _logger, 
+            //     e => $"Cannot send kyc push for trader: {e.ClientId}.", 
+            //     e => e.ClientId,
+            //     10,
+            //     5000);
+            subscriber.Subscribe(HandleEvent);
         }
 
         private async ValueTask HandleEvent(KycProfileUpdatedMessage profileUpdate)
@@ -45,7 +45,7 @@ namespace Service.PushNotification.Trigger.Jobs
             }
            
             if (profileUpdate.OldProfile.DepositStatus == KycOperationStatus.KycInProgress &&
-                profileUpdate.OldProfile.DepositStatus == KycOperationStatus.KycRequired)
+                profileUpdate.NewProfile.DepositStatus == KycOperationStatus.KycRequired)
             {
                 await _notificationService.SendPushCryptoWithdrawalDecline(new ()
                 {
@@ -54,7 +54,7 @@ namespace Service.PushNotification.Trigger.Jobs
             }
             
             if (profileUpdate.OldProfile.DepositStatus == KycOperationStatus.KycInProgress &&
-                profileUpdate.OldProfile.DepositStatus == KycOperationStatus.Allowed)
+                profileUpdate.NewProfile.DepositStatus == KycOperationStatus.Allowed)
             {
                 await _notificationService.SendPushKycDocumentsApproved(new ()
                 {
