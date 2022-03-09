@@ -35,8 +35,9 @@ namespace Service.PushNotification.Trigger.Jobs
 
         private async ValueTask HandleEvent(KycProfileUpdatedMessage profileUpdate)
         {
-            if (string.IsNullOrWhiteSpace(profileUpdate.OldProfile.BlockingReason) &&
-                !string.IsNullOrWhiteSpace(profileUpdate.NewProfile.BlockingReason))
+            if (profileUpdate.OldProfile.DepositStatus != KycOperationStatus.Blocked && profileUpdate.NewProfile.DepositStatus == KycOperationStatus.Blocked ||
+                profileUpdate.OldProfile.WithdrawalStatus != KycOperationStatus.Blocked && profileUpdate.NewProfile.WithdrawalStatus == KycOperationStatus.Blocked ||
+                profileUpdate.OldProfile.TradeStatus != KycOperationStatus.Blocked && profileUpdate.NewProfile.TradeStatus == KycOperationStatus.Blocked)
             {
                 await _notificationService.SendPushKycUserBanned(new ()
                 {
@@ -44,17 +45,19 @@ namespace Service.PushNotification.Trigger.Jobs
                 });
             }
            
-            if (profileUpdate.OldProfile.DepositStatus == KycOperationStatus.KycInProgress &&
-                profileUpdate.NewProfile.DepositStatus == KycOperationStatus.KycRequired)
+            if (profileUpdate.OldProfile.DepositStatus == KycOperationStatus.KycInProgress && profileUpdate.NewProfile.DepositStatus == KycOperationStatus.KycRequired ||
+                profileUpdate.OldProfile.WithdrawalStatus == KycOperationStatus.KycInProgress && profileUpdate.NewProfile.WithdrawalStatus == KycOperationStatus.KycRequired ||
+                profileUpdate.OldProfile.TradeStatus == KycOperationStatus.KycInProgress && profileUpdate.NewProfile.TradeStatus == KycOperationStatus.KycRequired)
             {
-                await _notificationService.SendPushCryptoWithdrawalDecline(new ()
+                await _notificationService.SendPushKycDocumentsDeclined(new ()
                 {
                     ClientId = profileUpdate.ClientId
                 });
             }
             
-            if (profileUpdate.OldProfile.DepositStatus == KycOperationStatus.KycInProgress &&
-                profileUpdate.NewProfile.DepositStatus == KycOperationStatus.Allowed)
+            if (profileUpdate.OldProfile.DepositStatus == KycOperationStatus.KycInProgress && profileUpdate.NewProfile.DepositStatus == KycOperationStatus.Allowed ||
+                profileUpdate.OldProfile.WithdrawalStatus == KycOperationStatus.KycInProgress && profileUpdate.NewProfile.WithdrawalStatus == KycOperationStatus.Allowed ||
+                profileUpdate.OldProfile.TradeStatus == KycOperationStatus.KycInProgress && profileUpdate.NewProfile.TradeStatus == KycOperationStatus.Allowed)
             {
                 await _notificationService.SendPushKycDocumentsApproved(new ()
                 {

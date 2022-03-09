@@ -64,7 +64,7 @@ namespace Service.PushNotification.Trigger.Modules
                 .SingleInstance();
 
             builder
-                .RegisterType<KycProfileUpdatedMessage>()
+                .RegisterType<KycPushNotification>()
                 .AutoActivate()
                 .SingleInstance();
         }
