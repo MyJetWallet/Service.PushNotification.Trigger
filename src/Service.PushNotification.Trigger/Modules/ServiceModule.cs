@@ -4,6 +4,7 @@ using MyJetWallet.Sdk.ServiceBus;
 using MyServiceBus.Abstractions;
 using Service.Bitgo.DepositDetector.Domain.Models;
 using Service.Bitgo.WithdrawalProcessor.Domain.Models;
+using Service.ClientProfile.Domain.Models;
 using Service.InternalTransfer.Domain.Models;
 using Service.KYC.Domain.Models.Messages;
 using Service.Liquidity.Converter.Domain.Models;
@@ -23,20 +24,15 @@ namespace Service.PushNotification.Trigger.Modules
             var queueName = "PushNotification.Trigger";
 
             builder.RegisterMyServiceBusSubscriberSingle<SwapMessage>(serviceBusClient, SwapMessage.TopicName,
-                queueName, TopicQueueType.Permanent);
+                queueName, TopicQueueType.PermanentWithSingleConnection);
             builder.RegisterPushNotificationClient(Program.Settings.PushNotificationGrpcServiceUrl);
 
-            builder.RegisterMyServiceBusSubscriberSingle<Transfer>(serviceBusClient, Transfer.TopicName,
-                queueName, TopicQueueType.PermanentWithSingleConnection);
-            builder.RegisterMyServiceBusSubscriberSingle<Withdrawal>(serviceBusClient, Withdrawal.TopicName,
-                queueName, TopicQueueType.Permanent);
-            builder.RegisterMyServiceBusSubscriberSingle<Deposit>(serviceBusClient, Deposit.TopicName,
-                queueName, TopicQueueType.Permanent);
-            builder.RegisterMyServiceBusSubscriberSingle<KycProfileUpdatedMessage>(serviceBusClient,
-                KycProfileUpdatedMessage.TopicName,
-                queueName, TopicQueueType.Permanent);
-            builder.RegisterMyServiceBusSubscriberSingle<SessionAuditEvent>(serviceBusClient,
-                SessionAuditEvent.TopicName, queueName, TopicQueueType.Permanent);
+            builder.RegisterMyServiceBusSubscriberSingle<Transfer>(serviceBusClient, Transfer.TopicName, queueName, TopicQueueType.PermanentWithSingleConnection);
+            builder.RegisterMyServiceBusSubscriberSingle<Withdrawal>(serviceBusClient, Withdrawal.TopicName, queueName, TopicQueueType.PermanentWithSingleConnection);
+            builder.RegisterMyServiceBusSubscriberSingle<Deposit>(serviceBusClient, Deposit.TopicName, queueName, TopicQueueType.PermanentWithSingleConnection);
+            builder.RegisterMyServiceBusSubscriberSingle<KycProfileUpdatedMessage>(serviceBusClient, KycProfileUpdatedMessage.TopicName, queueName, TopicQueueType.PermanentWithSingleConnection);
+            builder.RegisterMyServiceBusSubscriberSingle<SessionAuditEvent>(serviceBusClient, SessionAuditEvent.TopicName, queueName, TopicQueueType.PermanentWithSingleConnection);
+            builder.RegisterMyServiceBusSubscriberSingle<ClientProfileUpdateMessage>(serviceBusClient, ClientProfileUpdateMessage.TopicName, queueName, TopicQueueType.PermanentWithSingleConnection);
 
             builder
                 .RegisterType<CryptoDepositPushNotification>()
@@ -65,6 +61,11 @@ namespace Service.PushNotification.Trigger.Modules
 
             builder
                 .RegisterType<KycPushNotification>()
+                .AutoActivate()
+                .SingleInstance();
+            
+            builder
+                .RegisterType<TwoFaPushNotification>()
                 .AutoActivate()
                 .SingleInstance();
         }
