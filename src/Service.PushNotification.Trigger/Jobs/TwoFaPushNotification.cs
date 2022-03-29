@@ -44,7 +44,7 @@ namespace Service.PushNotification.Trigger.Jobs
                 await _notificationService.SendTwoFaEnabled(request);
 
             if (profileUpdate.OldProfile.Status2FA != Status2FA.Disabled && profileUpdate.NewProfile.Status2FA == Status2FA.Disabled)
-                await _notificationService.SendTwoFaEnabled(request);
+                await _notificationService.SendTwoFaDisabled(request);
         }
     }
 }
