@@ -2,6 +2,7 @@
 using MyJetWallet.Sdk.Authorization.ServiceBus;
 using MyJetWallet.Sdk.ServiceBus;
 using MyServiceBus.Abstractions;
+using Service.AutoInvestManager.Domain.Models;
 using Service.Bitgo.DepositDetector.Domain.Models;
 using Service.Bitgo.WithdrawalProcessor.Domain.Models;
 using Service.ClientProfile.Domain.Models;
@@ -33,6 +34,8 @@ namespace Service.PushNotification.Trigger.Modules
             builder.RegisterMyServiceBusSubscriberSingle<KycProfileUpdatedMessage>(serviceBusClient, KycProfileUpdatedMessage.TopicName, queueName, TopicQueueType.PermanentWithSingleConnection);
             builder.RegisterMyServiceBusSubscriberSingle<SessionAuditEvent>(serviceBusClient, SessionAuditEvent.TopicName, queueName, TopicQueueType.PermanentWithSingleConnection);
             builder.RegisterMyServiceBusSubscriberSingle<ClientProfileUpdateMessage>(serviceBusClient, ClientProfileUpdateMessage.TopicName, queueName, TopicQueueType.PermanentWithSingleConnection);
+            builder.RegisterMyServiceBusSubscriberSingle<InvestOrder>(serviceBusClient, InvestOrder.TopicName, queueName, TopicQueueType.PermanentWithSingleConnection);
+            builder.RegisterMyServiceBusSubscriberSingle<InvestInstruction>(serviceBusClient, InvestInstruction.TopicName, queueName, TopicQueueType.PermanentWithSingleConnection);
 
             builder
                 .RegisterType<CryptoDepositPushNotification>()
@@ -66,6 +69,11 @@ namespace Service.PushNotification.Trigger.Modules
             
             builder
                 .RegisterType<TwoFaPushNotification>()
+                .AutoActivate()
+                .SingleInstance();
+            
+            builder
+                .RegisterType<AutoInvestPushNotification>()
                 .AutoActivate()
                 .SingleInstance();
         }
