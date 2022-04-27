@@ -20,7 +20,7 @@
     <PackageReference Include="MyJetWallet.Service.AutoInvestManager.Client" Version="1.1.7" />
     <PackageReference Include="MyJetWallet.Service.Bitgo.DepositDetector.Client" Version="2.2.5" />
     <PackageReference Include="MyJetWallet.Service.Bitgo.WithdrawalProcessor.Client" Version="2.10.0" />
-    <PackageReference Include="MyJetWallet.Service.ClientProfile.Client" Version="1.2.0" />
+    <PackageReference Include="MyJetWallet.Service.ClientProfile.Client" Version="1.2.1" />
     <PackageReference Include="MyJetWallet.Service.InternalTransfer.Client" Version="1.1.4" />
     <PackageReference Include="MyJetWallet.Service.Liquidity.Converter.Client" Version="1.6.4" />
     <PackageReference Include="MyJetWallet.Service.PushNotification.Client" Version="1.4.3" />
