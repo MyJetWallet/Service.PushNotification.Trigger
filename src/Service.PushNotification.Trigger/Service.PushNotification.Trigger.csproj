@@ -8,7 +8,7 @@
 
   <ItemGroup>
     <PackageReference Include="Autofac.Extensions.DependencyInjection" Version="7.2.0" />
-    <PackageReference Include="Grpc.AspNetCore" Version="2.45.0" />
+    <PackageReference Include="Grpc.AspNetCore" Version="2.46.0" />
     <PackageReference Include="JetBrains.Annotations" Version="2022.1.0" />
     <PackageReference Include="Microsoft.Extensions.Configuration" Version="6.0.1" />
     <PackageReference Include="Microsoft.Extensions.Logging" Version="6.0.0" />
@@ -22,7 +22,7 @@
     <PackageReference Include="MyJetWallet.Service.Bitgo.WithdrawalProcessor.Client" Version="2.11.1" />
     <PackageReference Include="MyJetWallet.Service.ClientProfile.Client" Version="1.2.2" />
     <PackageReference Include="MyJetWallet.Service.InternalTransfer.Client" Version="1.1.4" />
-    <PackageReference Include="MyJetWallet.Service.Liquidity.Converter.Client" Version="1.8.0" />
+    <PackageReference Include="MyJetWallet.Service.Liquidity.Converter.Client" Version="1.8.1" />
     <PackageReference Include="MyJetWallet.Service.PushNotification.Client" Version="1.4.3" />
     <PackageReference Include="MyJetWallet.Service.Service.KYC.Client" Version="1.4.4" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
