@@ -37,6 +37,9 @@ namespace Service.PushNotification.Trigger.Modules
             builder.RegisterMyServiceBusSubscriberSingle<InvestOrder>(serviceBusClient, InvestOrder.TopicName, queueName, TopicQueueType.PermanentWithSingleConnection);
             builder.RegisterMyServiceBusSubscriberSingle<InvestInstruction>(serviceBusClient, InvestInstruction.TopicName, queueName, TopicQueueType.PermanentWithSingleConnection);
 
+            builder.RegisterMyServiceBusSubscriberSingle<FutureSimpleToken.ServiceBus.InitialFuturePayment>(serviceBusClient, FutureSimpleToken.ServiceBus.Topics.FutureSimpleTokenInitialTopic, queueName, TopicQueueType.DeleteOnDisconnect);
+            
+            
             builder
                 .RegisterType<CryptoDepositPushNotification>()
                 .AutoActivate()
@@ -74,6 +77,11 @@ namespace Service.PushNotification.Trigger.Modules
             
             builder
                 .RegisterType<AutoInvestPushNotification>()
+                .AutoActivate()
+                .SingleInstance();
+            
+            builder
+                .RegisterType<FutureSimpleTokenInitPushNotification>()
                 .AutoActivate()
                 .SingleInstance();
         }
