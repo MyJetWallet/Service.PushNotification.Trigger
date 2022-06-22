@@ -1,3 +1,4 @@
+using System;
 using System.Threading.Tasks;
 using DotNetCoreDecorators;
 using Microsoft.Extensions.Logging;
@@ -61,27 +62,88 @@ namespace Service.PushNotification.Trigger.Jobs
                     ExecutionTime = item.ExecutionTime
                 });
             if (item.Status == OrderStatus.Failed)
-                await _notificationService.SendAutoInvestFail(new AutoInvestFailRequest
+            {
+                switch (item.ErrorCode)
                 {
-                    ClientId = item.ClientId,
-                    ToAsset = item.ToAsset,
-                    FailureReason = item.ErrorText,
-                    FromAmount = item.FromAmount,
-                    FromAsset = item.FromAsset,
-                    FailTime = item.ExecutionTime
-                });
+                    case ErrorCode.NoError:
+                        return;
+                    case ErrorCode.LowBalance:
+                        await _notificationService.SendAutoInvestFail_LowBalance(new AutoInvestFailRequest
+                        {
+                            ClientId = item.ClientId,
+                            ToAsset = item.ToAsset,
+                            FromAmount = item.FromAmount,
+                            FromAsset = item.FromAsset,
+                            FailTime = item.ExecutionTime
+                        });
+                        return;
+                    case ErrorCode.PairNotSupported:
+                        await _notificationService.SendAutoInvestFail_InvalidPair(new AutoInvestFailRequest
+                        {
+                            ClientId = item.ClientId,
+                            ToAsset = item.ToAsset,
+                            FromAmount = item.FromAmount,
+                            FromAsset = item.FromAsset,
+                            FailTime = item.ExecutionTime
+                        });
+                        return;
+                    case ErrorCode.InternalServerError:
+                        await _notificationService.SendAutoInvestFail_InternalError(new AutoInvestFailRequest
+                        {
+                            ClientId = item.ClientId,
+                            ToAsset = item.ToAsset,
+                            FromAmount = item.FromAmount,
+                            FromAsset = item.FromAsset,
+                            FailTime = item.ExecutionTime
+                        });
+                        return;
+                }
+            }
+                
         }
 
         private async ValueTask HandleEvent(InvestInstruction item)
         {
-            await _notificationService.SendAutoInvestCreate(new AutoInvestCreateRequest
+            switch (item.ScheduleType)
             {
-                ClientId = item.ClientId,
-                ToAsset = item.ToAsset,
-                ScheduleType = item.ScheduleType.ToString().ToLower(),
-                FromAmount = item.FromAmount,
-                FromAsset = item.FromAsset
-            });
+                case ScheduleType.Daily:
+                    await _notificationService.SendAutoInvestCreate_Daily(new AutoInvestCreateRequest
+                    {
+                        ClientId = item.ClientId,
+                        ToAsset = item.ToAsset,
+                        FromAmount = item.FromAmount,
+                        FromAsset = item.FromAsset
+                    });
+                    return;
+                case ScheduleType.Weekly:
+                    await _notificationService.SendAutoInvestCreate_Weekly(new AutoInvestCreateRequest
+                    {
+                        ClientId = item.ClientId,
+                        ToAsset = item.ToAsset,
+                        FromAmount = item.FromAmount,
+                        FromAsset = item.FromAsset
+                    });
+                    return;;
+                case ScheduleType.Biweekly:
+                    await _notificationService.SendAutoInvestCreate_BiWeekly(new AutoInvestCreateRequest
+                    {
+                        ClientId = item.ClientId,
+                        ToAsset = item.ToAsset,
+                        FromAmount = item.FromAmount,
+                        FromAsset = item.FromAsset
+                    });
+                    return;;
+                case ScheduleType.Monthly:
+                    await _notificationService.SendAutoInvestCreate_Monthly(new AutoInvestCreateRequest
+                    {
+                        ClientId = item.ClientId,
+                        ToAsset = item.ToAsset,
+                        FromAmount = item.FromAmount,
+                        FromAsset = item.FromAsset
+                    });
+                    return;;
+            }
+            
         }
     }
 }
