@@ -74,7 +74,7 @@ namespace Service.PushNotification.Trigger.Jobs
                             ToAsset = item.ToAsset,
                             FromAmount = item.FromAmount,
                             FromAsset = item.FromAsset,
-                            FailTime = item.ExecutionTime
+                            FailTime = item.ExecutionTime == DateTime.MinValue ? DateTime.UtcNow : item.ExecutionTime
                         });
                         return;
                     case ErrorCode.PairNotSupported:
@@ -84,7 +84,7 @@ namespace Service.PushNotification.Trigger.Jobs
                             ToAsset = item.ToAsset,
                             FromAmount = item.FromAmount,
                             FromAsset = item.FromAsset,
-                            FailTime = item.ExecutionTime
+                            FailTime = item.ExecutionTime == DateTime.MinValue ? DateTime.UtcNow : item.ExecutionTime
                         });
                         return;
                     case ErrorCode.InternalServerError:
@@ -94,7 +94,7 @@ namespace Service.PushNotification.Trigger.Jobs
                             ToAsset = item.ToAsset,
                             FromAmount = item.FromAmount,
                             FromAsset = item.FromAsset,
-                            FailTime = item.ExecutionTime
+                            FailTime = item.ExecutionTime == DateTime.MinValue ? DateTime.UtcNow : item.ExecutionTime
                         });
                         return;
                 }
