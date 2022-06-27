@@ -2,12 +2,8 @@ using System;
 using System.Threading.Tasks;
 using DotNetCoreDecorators;
 using Microsoft.Extensions.Logging;
-using MyJetWallet.Sdk.Authorization.ServiceBus;
 using MyJetWallet.Sdk.ServiceBus;
 using Service.AutoInvestManager.Domain.Models;
-using Service.ClientProfile.Domain.Models;
-using Service.KYC.Domain.Models.Enum;
-using Service.KYC.Domain.Models.Messages;
 using Service.PushNotification.Grpc;
 using Service.PushNotification.Grpc.Models.Requests;
 
@@ -123,7 +119,7 @@ namespace Service.PushNotification.Trigger.Jobs
                         FromAmount = item.FromAmount,
                         FromAsset = item.FromAsset
                     });
-                    return;;
+                    return;
                 case ScheduleType.Biweekly:
                     await _notificationService.SendAutoInvestCreate_BiWeekly(new AutoInvestCreateRequest
                     {
@@ -132,7 +128,7 @@ namespace Service.PushNotification.Trigger.Jobs
                         FromAmount = item.FromAmount,
                         FromAsset = item.FromAsset
                     });
-                    return;;
+                    return;
                 case ScheduleType.Monthly:
                     await _notificationService.SendAutoInvestCreate_Monthly(new AutoInvestCreateRequest
                     {
@@ -141,7 +137,7 @@ namespace Service.PushNotification.Trigger.Jobs
                         FromAmount = item.FromAmount,
                         FromAsset = item.FromAsset
                     });
-                    return;;
+                    return;
             }
             
         }

@@ -1,6 +1,6 @@
 ﻿using Autofac;
-using MyJetWallet.Sdk.Authorization.ServiceBus;
 using MyJetWallet.Sdk.ServiceBus;
+using MyJetWallet.ServiceBus.SessionAudit.Models;
 using MyServiceBus.Abstractions;
 using Service.AutoInvestManager.Domain.Models;
 using Service.Bitgo.DepositDetector.Domain.Models;
@@ -22,7 +22,7 @@ namespace Service.PushNotification.Trigger.Modules
                 Program.ReloadedSettings(e => e.SpotServiceBusHostPort),
                 Program.LogFactory);
 
-            var queueName = "PushNotification.Trigger";
+            const string queueName = "PushNotification.Trigger";
 
             builder.RegisterMyServiceBusSubscriberSingle<SwapMessage>(serviceBusClient, SwapMessage.TopicName,
                 queueName, TopicQueueType.PermanentWithSingleConnection);

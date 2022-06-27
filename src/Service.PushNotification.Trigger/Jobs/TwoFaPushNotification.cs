@@ -1,11 +1,8 @@
 using System.Threading.Tasks;
 using DotNetCoreDecorators;
 using Microsoft.Extensions.Logging;
-using MyJetWallet.Sdk.Authorization.ServiceBus;
 using MyJetWallet.Sdk.ServiceBus;
 using Service.ClientProfile.Domain.Models;
-using Service.KYC.Domain.Models.Enum;
-using Service.KYC.Domain.Models.Messages;
 using Service.PushNotification.Grpc;
 using Service.PushNotification.Grpc.Models.Requests;
 
@@ -38,7 +35,7 @@ namespace Service.PushNotification.Trigger.Jobs
 
         private async ValueTask HandleEvent(ClientProfileUpdateMessage profileUpdate)
         {
-            var request = new TwoFaRequest() { ClientId = profileUpdate.NewProfile.ClientId };
+            var request = new TwoFaRequest { ClientId = profileUpdate.NewProfile.ClientId };
             
             if (profileUpdate.OldProfile.Status2FA != Status2FA.Enabled && profileUpdate.NewProfile.Status2FA == Status2FA.Enabled)
                 await _notificationService.SendTwoFaEnabled(request);

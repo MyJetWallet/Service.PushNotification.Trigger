@@ -1,12 +1,9 @@
 using System.Threading.Tasks;
 using DotNetCoreDecorators;
 using Microsoft.Extensions.Logging;
-using MyJetWallet.Sdk.Authorization.ServiceBus;
-using MyJetWallet.Sdk.ServiceBus;
 using Service.KYC.Domain.Models.Enum;
 using Service.KYC.Domain.Models.Messages;
 using Service.PushNotification.Grpc;
-using Service.PushNotification.Grpc.Models.Requests;
 
 namespace Service.PushNotification.Trigger.Jobs
 {
