@@ -37,12 +37,12 @@ namespace Service.PushNotification.Trigger.Jobs
             {
                 await _notificationService.SendPushCryptoDeposit(new DepositRequest()
                 {
-                    ClientId = deposit.ClientId,
+                    ClientId = deposit.BeneficiaryClientId,
                     Amount = (decimal) deposit.Amount,
                     Symbol = deposit.AssetSymbol
                 });
                 _logger.LogInformation("Client {clientId} [{walletId}] receive {amount} {assetSymbol}",
-                    deposit.ClientId, deposit.WalletId, deposit.Amount, deposit.AssetSymbol);
+                    deposit.BeneficiaryClientId, deposit.WalletId, deposit.Amount, deposit.AssetSymbol);
             }
         }
     }
